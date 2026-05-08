@@ -1,0 +1,111 @@
+// ============================================================
+//  PROCEDURE variant
+//  Result stored in 'ps' passed by reference (VAR keyword).
+//  The procedure writes directly into the caller's variable.
+// ============================================================
+
+PROCEDURE dot_product(v1[], v2[] : ARRAY OF INTEGER;
+                      size       : INTEGER;
+                  VAR ps         : INTEGER)
+VAR
+  i : INTEGER
+
+BEGIN
+  ps <- 0
+  FOR i <- 1 TO size DO
+  BEGIN
+    ps <- ps + v1[i] * v2[i]
+  END
+END
+
+
+// ============================================================
+//  FUNCTION variant
+//  Result returned directly; no output parameter needed.
+//  'size' is passed by value — the function works on its own copy.
+// ============================================================
+
+FUNCTION dot_product(v1[], v2[] : ARRAY OF INTEGER;
+                     size       : INTEGER) : INTEGER
+VAR
+  i  : INTEGER
+  ps : INTEGER
+
+BEGIN
+  ps <- 0
+  FOR i <- 1 TO size DO
+  BEGIN
+    ps <- ps + v1[i] * v2[i]
+  END
+  RETURN ps
+END
+
+
+// ============================================================
+//  ALGORITHM — check orthogonality for n pairs (PROCEDURE version)
+//  Two vectors are orthogonal when their dot product equals zero.
+// ============================================================
+
+ALGORITHM CheckOrthogonality_Procedure
+VAR
+  n, k, size : INTEGER
+  ps         : INTEGER
+  v1, v2     : ARRAY[1..MAX] OF INTEGER
+
+BEGIN
+  READ n                              // number of vector pairs to test
+
+  FOR k <- 1 TO n DO
+  BEGIN
+    READ size
+    READ v1[1..size]
+    READ v2[1..size]
+
+    CALL dot_product(v1, v2, size, ps)   // ps is written by reference
+
+    IF ps = 0 THEN
+      PRINT "Pair", k, "-> ORTHOGONAL (dot product = 0)"
+    ELSE
+      PRINT "Pair", k, "-> NOT orthogonal (dot product =", ps, ")"
+  END
+END
+
+
+// ============================================================
+//  ALGORITHM — check orthogonality for n pairs (FUNCTION version)
+//  The function's return value is used directly in the condition.
+// ============================================================
+
+ALGORITHM CheckOrthogonality_Function
+VAR
+  n, k, size : INTEGER
+  v1, v2     : ARRAY[1..MAX] OF INTEGER
+
+BEGIN
+  READ n
+
+  FOR k <- 1 TO n DO
+  BEGIN
+    READ size
+    READ v1[1..size]
+    READ v2[1..size]
+
+    IF dot_product(v1, v2, size) = 0 THEN
+      PRINT "Pair", k, "-> ORTHOGONAL"
+    ELSE
+      PRINT "Pair", k, "-> NOT orthogonal"
+  END
+END
+
+
+// ============================================================
+//  Parameter passing summary
+//
+//  PROCEDURE: ps declared VAR -> passed by reference
+//             The procedure modifies the caller's variable directly.
+//             Caller reads result from ps after the CALL.
+//
+//  FUNCTION:  ps is a local variable inside the function.
+//             Result delivered via RETURN; caller uses it inline.
+//             size is passed by value -> function has its own copy.
+// ============================================================

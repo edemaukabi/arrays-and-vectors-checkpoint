@@ -1,0 +1,58 @@
+ALGORITHM SumDistinctElements(Set1[1..n1], Set2[1..n2])
+// Returns the sum of all elements that appear in exactly one of the two sets.
+// Elements shared by both sets are excluded.
+
+VAR
+  i, j   : INTEGER
+  sum    : INTEGER
+  found  : BOOLEAN
+
+BEGIN
+  sum <- 0
+
+  // --- Pass 1: elements in Set1 not present in Set2 ---
+  FOR i <- 1 TO n1 DO
+  BEGIN
+    found <- FALSE
+    FOR j <- 1 TO n2 DO           // nested loop: search Set2 for Set1[i]
+    BEGIN
+      IF Set1[i] = Set2[j] THEN
+        found <- TRUE
+    END
+    IF found = FALSE THEN
+      sum <- sum + Set1[i]
+  END
+
+  // --- Pass 2: elements in Set2 not present in Set1 ---
+  FOR i <- 1 TO n2 DO
+  BEGIN
+    found <- FALSE
+    FOR j <- 1 TO n1 DO           // nested loop: search Set1 for Set2[i]
+    BEGIN
+      IF Set2[i] = Set1[j] THEN
+        found <- TRUE
+    END
+    IF found = FALSE THEN
+      sum <- sum + Set2[i]
+  END
+
+  RETURN sum
+END
+
+// --- Trace ---
+// Set1 = [3, 1, 7, 9]   Set2 = [2, 4, 1, 9, 3]
+//
+// Pass 1:
+//   3 -> found in Set2 -> skip
+//   1 -> found in Set2 -> skip
+//   7 -> NOT in Set2   -> sum = 7
+//   9 -> found in Set2 -> skip
+//
+// Pass 2:
+//   2 -> NOT in Set1   -> sum = 9
+//   4 -> NOT in Set1   -> sum = 13
+//   1 -> found in Set1 -> skip
+//   9 -> found in Set1 -> skip
+//   3 -> found in Set1 -> skip
+//
+// Output: 13 (distinct elements: 7, 2, 4)
