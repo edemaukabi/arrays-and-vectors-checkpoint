@@ -1,8 +1,6 @@
-// ============================================================
-//  PROCEDURE variant
-//  Result stored in 'ps' passed by reference (VAR keyword).
-//  The procedure writes directly into the caller's variable.
-// ============================================================
+// PROCEDURE variant
+// Result stored in 'ps' passed by reference (VAR keyword).
+// The procedure writes directly into the caller's variable.
 
 PROCEDURE dot_product(v1[], v2[] : ARRAY OF INTEGER;
                       size       : INTEGER;
@@ -19,11 +17,9 @@ BEGIN
 END
 
 
-// ============================================================
-//  FUNCTION variant
-//  Result returned directly; no output parameter needed.
-//  'size' is passed by value — the function works on its own copy.
-// ============================================================
+// FUNCTION variant
+// Result returned directly; no output parameter needed.
+// 'size' is passed by value — the function works on its own copy.
 
 FUNCTION dot_product(v1[], v2[] : ARRAY OF INTEGER;
                      size       : INTEGER) : INTEGER
@@ -41,10 +37,8 @@ BEGIN
 END
 
 
-// ============================================================
-//  ALGORITHM — check orthogonality for n pairs (PROCEDURE version)
-//  Two vectors are orthogonal when their dot product equals zero.
-// ============================================================
+// ALGORITHM — check orthogonality for n pairs (PROCEDURE version)
+// Two vectors are orthogonal when their dot product equals zero.
 
 ALGORITHM CheckOrthogonality_Procedure
 VAR
@@ -71,10 +65,8 @@ BEGIN
 END
 
 
-// ============================================================
-//  ALGORITHM — check orthogonality for n pairs (FUNCTION version)
-//  The function's return value is used directly in the condition.
-// ============================================================
+// ALGORITHM — check orthogonality for n pairs (FUNCTION version)
+// The function's return value is used directly in the condition.
 
 ALGORITHM CheckOrthogonality_Function
 VAR
@@ -98,14 +90,12 @@ BEGIN
 END
 
 
-// ============================================================
-//  Parameter passing summary
+// Parameter passing summary
 //
-//  PROCEDURE: ps declared VAR -> passed by reference
-//             The procedure modifies the caller's variable directly.
-//             Caller reads result from ps after the CALL.
+// PROCEDURE: ps declared VAR -> passed by reference
+//            The procedure modifies the caller's variable directly.
+//            Caller reads result from ps after the CALL.
 //
-//  FUNCTION:  ps is a local variable inside the function.
-//             Result delivered via RETURN; caller uses it inline.
-//             size is passed by value -> function has its own copy.
-// ============================================================
+// FUNCTION:  ps is a local variable inside the function.
+//            Result delivered via RETURN; caller uses it inline.
+//            size is passed by value -> function has its own copy.
